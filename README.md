@@ -8,7 +8,7 @@ _currently only compatible with raspberryPI_
 
 ssh to your raspberryPI and run this command:
 
-```
+```sh
 curl -sL https://raw.githubusercontent.com/HackerLoop/rotonde-cli/master/install_rpi.sh | bash -E -
 ```
 
@@ -19,28 +19,28 @@ instruction on reboot.
 
 ### Install modules
 
-```
+```sh
 rotonde install [module name]
 ```
 
 Note about modules: they are hosted on docker hub, which means that they are in the form of [author]/[module]. The name given here should not contain the platform suffix, (ie. -rpi) which is automatically added by the script. This lack of proper UX will remain until we have a better method.
 
 For exemple, to install the rotonde-serial module, which is hosted by
-the user hackerloop on docker hub:
+the user hackerloop on docker hub as `hackerloop/rotonde-serial-rpi`:
 
-```
+```sh
 rotonde install hackerloop/rotonde-serial
 ```
 
 ### Update modules
 
-```
+```sh
 rotonde update [module name]
 ```
 
 ### Remove modules
 
-```
+```sh
 rotonde remove [module name]
 ```
 
