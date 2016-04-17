@@ -1,0 +1,76 @@
+#!/bin/bash
+
+cmd=$1
+
+#
+# Utils functions
+#
+
+function print_usage_and_exit() {
+  echo "Usage: rotonde [cmd] [cmd params]"
+  echo
+  echo "Note about modules: they are hosted on docker hub, which means that they are in the form of [author]/[module]. The name given here should not contain the platform suffix, (ie. -rpi) which is automatically added by the script. This lack of proper UX will remain until we have a better method."
+  echo
+  echo "Commands:"
+  echo
+  echo "install [module name]: installs a module, starts it, and restarts is automatically on exit."
+  echo
+  echo "update [module name]: updates a module, starts it, and restarts is automatically on exit."
+  echo
+  echo "remove [module name]: removes a module."
+  echo
+  exit
+}
+
+function assert_module_name() {
+  if [ "$module" = "" ]; then
+    echo "Missing module name"
+    print_usage_and_exit
+  fi
+  $module_subname=`cut -d'/' -f1 <<< "$module"`
+  $module_complete_name="$module-$platform"
+}
+
+#
+# initialization
+#
+
+# TODO find platform dynamically
+platform=rpi
+
+if [ "$cmd" = "" ]; then
+  print_usage_and_exit
+fi
+
+#
+# Commands
+#
+
+case $cmd in
+"install")
+  module=$2
+  assert_module_name
+  echo "Installing $module"
+  sudo docker run --privileged --restart=always -d --name $module_subname --net=host $module_complete_name
+  ;;
+
+"update")
+  module=$2
+  assert_module_name
+  echo "Updating $module"
+  sudp docker kill $module_subname && \
+  sudo docker rm $module_subname && \
+  sudo docker pull $module_complete_name && \
+  sudo docker run --privileged --restart=always -d --name $module_subname --net=host $module_complete_name
+  ;;
+
+"remove")
+  # TODO dry
+  module=$2
+  assert_module_name
+  echo "Removing $module"
+  sudp docker kill $module_subname && \
+  sudo docker rm $module_subname && \
+  sudo docker rmi $module_complete_name
+  ;;
+esac

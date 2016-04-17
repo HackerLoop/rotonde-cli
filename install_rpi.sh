@@ -18,12 +18,17 @@ if ! grep -q "$MOD_ENABLE"; then
   sudo reboot
 fi
 
-# download and install docker
-curl -O https://downloads.hypriot.com/docker-hypriot_1.10.3-1_armhf.deb && sudo dpkg -i docker-hypriot_1.10.3-1_armhf.deb
+if ! which -s docker; then
+  # TODO check version
+  # download and install docker
+  curl -O https://downloads.hypriot.com/docker-hypriot_1.10.3-1_armhf.deb && sudo dpkg -i docker-hypriot_1.10.3-1_armhf.deb
+fi
 
 # start docker on boot
 sudo systemctl enable docker
 sudo systemctl start docker
+
+sudo curl -o /usr/loca/bin/rotonde 
 
 # start rotonde modules, automatically restarts modules on failure (and on boot)
 sudo docker run --privileged --restart=always -d --name rotonde --net=host hackerloop/rotonde-rpi
