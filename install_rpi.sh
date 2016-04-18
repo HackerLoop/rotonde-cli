@@ -10,13 +10,13 @@ fi
 
 # add rotonde to /etc/hosts so modules just have to connect to rotonde:4224
 ETC_HOST="127.0.0.1 rotonde"
-if ! grep -q "$ETC_HOST"; then
+if ! grep -q "$ETC_HOST" /etc/hosts; then
   sudo su -c "echo \"$ETC_HOST\" >> /etc/hosts"
 fi
 
 # overlay kernel module is required for docker
 MOD_ENABLE="overlay"
-if ! grep -q "$MOD_ENABLE"; then
+if ! grep -q "$MOD_ENABLE" /etc/modules; then
   sudo su -c "echo \"$MOD_ENABLE\" >> /etc/modules"
   echo
   echo "#################################"
