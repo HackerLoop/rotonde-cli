@@ -27,7 +27,7 @@ function assert_module_name() {
     echo "Missing module name"
     print_usage_and_exit
   fi
-  module_subname=`cut -d'/' -f1 <<< "$module"`
+  module_subname=`cut -d'/' -f2 <<< "$module"`
   module_complete_name="$module-$platform"
 }
 
