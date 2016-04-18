@@ -31,7 +31,7 @@ if ! grep -q "$MOD_ENABLE" /etc/modules; then
   sudo reboot
 fi
 
-if ! which -s docker; then
+if ! which docker; then
   # TODO check version
   # download and install docker
   curl -O $HYPRIOT_URL && sudo dpkg -i docker-hypriot_$HYPRIOT_VERSION.deb
