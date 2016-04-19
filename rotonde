@@ -51,17 +51,17 @@ case $cmd in
   module=$2
   assert_module_name
   echo "Installing $module"
-  sudo docker run --privileged --restart=always -d --name $module --net=host $module_complete_name
+  sudo docker run --privileged --restart=always -d --name $module_subname --net=host $module_complete_name
   ;;
 
 "update")
   module=$2
   assert_module_name
   echo "Updating $module"
-  sudp docker kill $module && \
-  sudo docker rm $module && \
+  sudp docker kill $module_subname && \
+  sudo docker rm $module_subname && \
   sudo docker pull $module_complete_name && \
-  sudo docker run --privileged --restart=always -d --name $module --net=host $module_complete_name
+  sudo docker run --privileged --restart=always -d --name $module_subname --net=host $module_complete_name
   ;;
 
 "remove")
@@ -69,8 +69,8 @@ case $cmd in
   module=$2
   assert_module_name
   echo "Removing $module"
-  sudo docker kill $module && \
-  sudo docker rm $module && \
+  sudo docker kill $module_subname && \
+  sudo docker rm $module_subname && \
   sudo docker rmi $module_complete_name
   ;;
 esac
