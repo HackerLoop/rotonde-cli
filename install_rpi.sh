@@ -18,17 +18,7 @@ fi
 MOD_ENABLE="overlay"
 if ! grep -q "$MOD_ENABLE" /etc/modules; then
   sudo su -c "echo \"$MOD_ENABLE\" >> /etc/modules"
-  echo
-  echo "#################################"
-  echo
-  echo "rebooting ... please re-run this script on reboot"
-  echo
-  echo "                        -> rebooting in 5 seconds"
-  echo
-  echo "#################################"
-  echo
-  sleep 5
-  sudo reboot
+  sudo modprobe $MOD_ENABLE
 fi
 
 if ! which docker; then
